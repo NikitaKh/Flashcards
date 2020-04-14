@@ -19,7 +19,6 @@ abstract class FlashCard{
 
 class CardGenerator extends FlashCard{
 
-
 }
 
 public class Main {
