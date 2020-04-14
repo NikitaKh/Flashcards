@@ -5,13 +5,22 @@ import java.util.Scanner;
 
 abstract class FlashCard{
 
-    protected int numberOfCards;
-    protected String[] cards;
-    protected String definition;
+    private int numberOfCards;
+    private String[] cards;
+    private String definition;
+    private String answer;
 
-    protected FlashCard(int numberOfCards){
+    public FlashCard(int numberOfCards){
         this.numberOfCards = numberOfCards;
         this.cards = new String[numberOfCards];
+    }
+
+    public void setDefinition(String definition){
+        this.definition = ";
+    }
+
+    public String getDefinition(){
+        return definition;
     }
 
     public abstract void print();
@@ -19,6 +28,12 @@ abstract class FlashCard{
 
 class CardGenerator extends FlashCard{
 
+    FlashCard newCard = new Fla
+
+    @Override
+    public void print() {
+
+    }
 }
 
 public class Main {
