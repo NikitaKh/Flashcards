@@ -1,3 +1,4 @@
+
 package flashcards;
 
 import java.util.InputMismatchException;
@@ -13,6 +14,7 @@ abstract class FlashCard{
     private String card;
     private String answer;
     private String cardsCounter;
+    private String definitionsCounter;
 
     public FlashCard(int numberOfCards){
         this.numberOfCards = numberOfCards;
@@ -20,21 +22,32 @@ abstract class FlashCard{
         this.definitions = new String[numberOfCards];
     }
 
+
+    public int getNumberOfCards() {
+        return numberOfCards;
+    }
+
+    /*Getter and Setter for String[] Cards*/
+
+    public String[] getCards(){
+        return cards;
+    }
+
+    public void setCards(String card, int index){
+        this.cards[index] = card;
+    }
+
+    /*Setter and getter for String[] definitions*/
+
     public void setDefinitions(String definition, int ind) {
         this.definitions[ind] = definition;
     }
 
     public String[] getDefinitions(){
         return definitions;
-        }
-
-    public String getCard(){
-        return card;
     }
 
-    public void setCard(String card){
-        this.card = card;
-    }
+    /*Getter and Setter for cards counter*/
 
     public void setCardsCounter(int cardNum){
         this.cardsCounter = "The card #" + cardNum + ":";
@@ -44,37 +57,18 @@ abstract class FlashCard{
         return cardsCounter;
     }
 
-    public void setAnswer(String answer){
-        this.answer = answer;
+    /*Getter and setter for deffinitionCounter*/
+
+    public void setDefinitionsCounter(int def){
+        this.definitionsCounter = "The definition of the card #" + def + ":";
     }
 
-    public String getAnswer(){
-        return answer;
+    public String getDefinitionsCounter(){
+        return definitionsCounter;
     }
 
-    public String[] getCards(){
-        return cards;
-    }
-
-
-    public void setCards(String card, int index){
-        this.cards[index] = card;
-    }
-
-    public int getNumberOfCards() {
-        return numberOfCards;
-    }
-
-    public String getDefinition(){
-        return definition;
-    }
-
-    public void setDefinition(String definition){
-        this.definition = definition;
-    }
-
-    //public abstract void writeDefinition();
     public abstract void writeCard();
+    public abstract void readCard();
 }
 class CardGenerator extends FlashCard{
 
@@ -91,8 +85,24 @@ class CardGenerator extends FlashCard{
             setCardsCounter(i);
             System.out.println(getCardsCounter());
             setCards(sc.nextLine(), counter);
-            System.out.println(getCards()[counter]);
+            setDefinitionsCounter(i);
+            System.out.println(getDefinitionsCounter());
+            setDefinitions(sc.nextLine(), counter);
+            //System.out.println(getCards()[counter] + "   " +  getDefinitions()[counter]);
             counter++;
+        }
+    }
+
+    @Override
+    public void readCard(){
+        for (int i = 0; i < getNumberOfCards(); i++){
+            System.out.println("Print the definition of \"" + getCards()[i] + "\":");
+            if (sc.nextLine().equals(getDefinitions()[i])){
+                System.out.println("Correct answer");
+            } else {
+                System.out.println("Wrong answer. The correct one is \""
+                        + getDefinitions()[i] + "\".");
+            }
         }
     }
 
@@ -105,6 +115,7 @@ public class Main {
         try(Scanner sc = new Scanner(System.in)){
             CardGenerator newCard = new CardGenerator(sc.nextInt());
             newCard.writeCard();
+            newCard.readCard();
         } catch (InputMismatchException e){
             System.out.println("Incorrect value");
             System.exit(0);
