@@ -129,8 +129,9 @@ class CardGenerator extends FlashCard{
             setAnswer(sc.nextLine());
             if (getAnswer().equals(getDefinitions()[i])){
                 System.out.println("Correct answer");
-            } else {
-                answerChecker(i);
+            } else if (answerChecker(i) == false){
+                System.out.println("Wrong answer. The correct one is \"" +
+                        getDefinitions()[i] + "\"");
             }
         }
     }
@@ -159,13 +160,18 @@ class CardGenerator extends FlashCard{
         setDefinitions(getDefinition(), counter);
     }
 
-    public void answerChecker(int index){
+    public boolean answerChecker(int index){
+
         for(int i = 0; i < getNumberOfCards(); i++){
             if (getDefinitions()[i].equals(getAnswer())){
-                System.out.println("Wrong answer, The correct one is \"" + getDefinitions()[index] +
-                        "\", you've just written the definition of \"" + getCards()[index] + "\"");
+
+                System.out.println("Wrong answer, The correct one is " + "\""
+                        + getDefinitions()[index] + "\", you've just written the definition of \"" +
+                        getCards()[i] + "\".");
+                return true;
             }
         }
+        return false;
     }
 }
 
