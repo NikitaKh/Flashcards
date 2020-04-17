@@ -10,9 +10,6 @@ abstract class FlashCard{
     private int numberOfCards;
     private String[] cards;
     private String[] definitions;
-    private String definition;
-    private String card;
-    private String answer;
     private String cardsCounter;
     private String definitionsCounter;
 
