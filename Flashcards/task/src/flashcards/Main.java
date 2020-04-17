@@ -56,6 +56,7 @@ abstract class FlashCard{
         return cards;
     }
 
+
     public void setCards(String card, int index){
         this.cards[index] = card;
     }
@@ -85,10 +86,13 @@ class CardGenerator extends FlashCard{
 
     @Override
     public void writeCard(){
-        for (int i = 1; i < getNumberOfCards(); i++){
+        int counter = 0;
+        for (int i = 1; i <= getNumberOfCards(); i++){
             setCardsCounter(i);
             System.out.println(getCardsCounter());
-            setCards(sc.nextLine(), i--);
+            setCards(sc.nextLine(), counter);
+            System.out.println(getCards()[counter]);
+            counter++;
         }
     }
 
