@@ -12,6 +12,9 @@ abstract class FlashCard{
     private String[] definitions;
     private String cardsCounter;
     private String definitionsCounter;
+    private String card;
+    private String definition;
+    private String answer;
 
     public FlashCard(int numberOfCards){
         this.numberOfCards = numberOfCards;
@@ -64,6 +67,36 @@ abstract class FlashCard{
         return definitionsCounter;
     }
 
+    /*Getter and setter for card*/
+
+    public void setCard(String card){
+        this.card = card;
+    }
+
+    public java.lang.String getCard() {
+        return card;
+    }
+
+    /*Setter and getter for definition*/
+
+    public void setDefinition(String definition){
+        this.definition = definition;
+    }
+
+    public String getDefinition(){
+        return definition;
+    }
+
+    /*Setter and getter for answer*/
+
+    public void setAnswer(String answer){
+        this.answer = answer;
+    }
+
+    public String getAnswer(){
+        return answer;
+    }
+
     public abstract void writeCard();
     public abstract void readCard();
 }
@@ -81,11 +114,10 @@ class CardGenerator extends FlashCard{
         for (int i = 1; i <= getNumberOfCards(); i++){
             setCardsCounter(i);
             System.out.println(getCardsCounter());
-            setCards(sc.nextLine(), counter);
+            cardChecker(sc.nextLine(), counter);
             setDefinitionsCounter(i);
             System.out.println(getDefinitionsCounter());
-            setDefinitions(sc.nextLine(), counter);
-            //System.out.println(getCards()[counter] + "   " +  getDefinitions()[counter]);
+            definitionsChecker(sc.nextLine(), counter);
             counter++;
         }
     }
@@ -94,28 +126,61 @@ class CardGenerator extends FlashCard{
     public void readCard(){
         for (int i = 0; i < getNumberOfCards(); i++){
             System.out.println("Print the definition of \"" + getCards()[i] + "\":");
-            if (sc.nextLine().equals(getDefinitions()[i])){
+            setAnswer(sc.nextLine());
+            if (getAnswer().equals(getDefinitions()[i])){
                 System.out.println("Correct answer");
             } else {
-                System.out.println("Wrong answer. The correct one is \""
-                        + getDefinitions()[i] + "\".");
+                answerChecker(i);
             }
         }
     }
 
+    public void cardChecker(String input, int counter){
+        setCard(input);
+        for (int i = 0; i < counter; i++){
+            if (getCards()[i].equals(input)){
+                System.out.println("The card \""
+                        + input + "\" already exists. Try again:");
+                cardChecker(sc.nextLine(), counter);
+            }
+        }
+        setCards(getCard(), counter);
+    }
+
+    public void definitionsChecker(String input, int counter){
+        setDefinition(input);
+        for (int i = 0; i < counter; i++){
+            if (getDefinitions()[i].equals(input)){
+                System.out.println("The definition \"" +
+                        input + "\" already exists. Try again:");
+                definitionsChecker(sc.nextLine(), counter);
+            }
+        }
+        setDefinitions(getDefinition(), counter);
+    }
+
+    public void answerChecker(int index){
+        for(int i = 0; i < getNumberOfCards(); i++){
+            if (getDefinitions()[i].equals(getAnswer())){
+                System.out.println("Wrong answer, The correct one is \"" + getDefinitions()[index] +
+                        "\", you've just written the definition of \"" + getCards()[index] + "\"");
+            }
+        }
+    }
 }
+
+
 public class Main {
     public static void main(String[] args) {
+            System.out.println("Input the number of cards:");
+            try(Scanner sc = new Scanner(System.in)){
+                CardGenerator newCard = new CardGenerator(sc.nextInt());
+                newCard.writeCard();
+                newCard.readCard();
+            } catch (InputMismatchException e){
+                System.out.println("Incorrect value");
+                System.exit(0);
+            }
 
-        System.out.println("Input the number of cards:");
-
-        try(Scanner sc = new Scanner(System.in)){
-            CardGenerator newCard = new CardGenerator(sc.nextInt());
-            newCard.writeCard();
-            newCard.readCard();
-        } catch (InputMismatchException e){
-            System.out.println("Incorrect value");
-            System.exit(0);
-        }
     }
 }
